@@ -1,0 +1,20 @@
+# ---- Web 服务与 Agent 编排 ----
+fastapi>=0.110
+uvicorn[standard]>=0.29
+langgraph>=0.2.0
+langchain-core>=0.3.0
+pydantic>=2.6
+
+# ---- 数据与存储 ----
+SQLAlchemy>=2.0
+redis>=5.0
+pymilvus>=2.4
+
+# ---- 检索与重排（BGE 为可选本地依赖，离线 Mock 不依赖）----
+# FlagEmbedding>=1.2.9   # 提供 bge-small-zh / bge-reranker 本地推理，私有化部署时启用
+
+# ---- 演示端 ----
+streamlit>=1.35
+
+# ---- 评测与测试 ----
+pytest>=8.0
