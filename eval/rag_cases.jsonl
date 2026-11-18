@@ -1,0 +1,30 @@
+{"question": "ZP-SF-001 沙发坐深尺寸是多少", "expected_doc_ids": ["M-ZP-SF-001"]}
+{"question": "有没有可拆洗的布艺沙发套", "expected_doc_ids": ["M-ZP-SF-001"]}
+{"question": "原木风实木沙发的材质是什么", "expected_doc_ids": ["M-ZP-SF-002"]}
+{"question": "1.8米乳胶床垫的尺寸和厚度", "expected_doc_ids": ["M-ZP-CP-001"]}
+{"question": "椰棕硬床垫多少钱", "expected_doc_ids": ["M-ZP-CP-002"]}
+{"question": "电动升降书桌的尺寸高度范围", "expected_doc_ids": ["M-ZP-ZT-001"]}
+{"question": "岩板餐桌台面的尺寸厚度", "expected_doc_ids": ["M-ZP-ZT-002"]}
+{"question": "护眼台灯的价格和照度参数", "expected_doc_ids": ["M-ZP-DG-001"]}
+{"question": "落地阅读灯价格是多少", "expected_doc_ids": ["M-ZP-DG-002"]}
+{"question": "乳胶枕有哪些枕高可选", "expected_doc_ids": ["M-ZP-ZC-001"]}
+{"question": "退货期限是签收后几天", "expected_doc_ids": ["POLICY-RMA"]}
+{"question": "换货政策几天内可以申请", "expected_doc_ids": ["POLICY-RMA"]}
+{"question": "质量问题维修保修多少天", "expected_doc_ids": ["POLICY-RMA"]}
+{"question": "价保多少天内可以申请", "expected_doc_ids": ["POLICY-PRICE"]}
+{"question": "价保差价怎么计算", "expected_doc_ids": ["POLICY-PRICE"]}
+{"question": "多久内发货", "expected_doc_ids": ["POLICY-SHIP"]}
+{"question": "订单不满499元运费收多少", "expected_doc_ids": ["POLICY-SHIP"]}
+{"question": "上门安装收费吗", "expected_doc_ids": ["POLICY-INSTALL"]}
+{"question": "怎么查订单物流", "expected_doc_ids": ["FAQ-001"]}
+{"question": "优惠券在哪里领取", "expected_doc_ids": ["FAQ-002"]}
+{"question": "支持货到付款吗", "expected_doc_ids": ["FAQ-003"]}
+{"question": "发票怎么开", "expected_doc_ids": ["FAQ-004"]}
+{"question": "床垫保修几年", "expected_doc_ids": ["FAQ-005"]}
+{"question": "沙发套可以单独购买吗", "expected_doc_ids": ["FAQ-006"]}
+{"question": "下单后可以修改地址吗", "expected_doc_ids": ["FAQ-007"]}
+{"question": "拒收后退款多久到账", "expected_doc_ids": ["FAQ-008"]}
+{"question": "企业采购可以开专票吗", "expected_doc_ids": ["FAQ-009"]}
+{"question": "有以旧换新活动吗", "expected_doc_ids": ["FAQ-010"]}
+{"question": "台灯双11活动价和日常价差多少", "expected_doc_ids": ["M-ZP-DG-001", "POLICY-PRICE"]}
+{"question": "三人沙发安装要多久", "expected_doc_ids": ["M-ZP-SF-001", "POLICY-INSTALL"]}
