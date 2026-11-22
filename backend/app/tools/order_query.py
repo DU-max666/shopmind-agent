@@ -2,40 +2,48 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from datetime import date, timedelta
 from typing import Any
 
 from backend.app.tools.base import BaseTool, ToolError
 
-# 演示订单库（全部虚构数据；日期对齐 2026-11 演示窗口）
+
+def _days_ago(n: int) -> str:
+    """演示数据日期相对今天生成，避免价保/退货窗口随时间失效。"""
+    return (date.today() - timedelta(days=n)).isoformat()
+
+
+# 演示订单库（全部虚构数据；日期相对当前时间动态生成，
+# 保证签收后 7 天退货窗口、下单后 30 天价保窗口恒可演示）
 DEMO_ORDERS: dict[str, dict[str, Any]] = {
     "ORD20261105001": {
         "order_id": "ORD20261105001", "user_id": "U1001", "channel": "self",
         "items": [{"sku": "ZP-SF-001", "name": "北欧布艺三人沙发", "qty": 1, "paid": 1299.0}],
-        "paid_amount": 1299.0, "status": "已发货", "order_date": "2026-11-05",
+        "paid_amount": 1299.0, "status": "已发货", "order_date": _days_ago(13),
         "sign_date": None, "coupon_code": None,
     },
     "ORD20261108002": {
         "order_id": "ORD20261108002", "user_id": "U1002", "channel": "self",
         "items": [{"sku": "ZP-CP-001", "name": "独立袋装弹簧乳胶床垫1.8m", "qty": 1, "paid": 1899.0}],
-        "paid_amount": 1899.0, "status": "已签收", "order_date": "2026-11-08",
-        "sign_date": "2026-11-10", "coupon_code": "CP2026A",
+        "paid_amount": 1899.0, "status": "已签收", "order_date": _days_ago(10),
+        "sign_date": _days_ago(3), "coupon_code": "CP2026A",
     },
     "ORD20261020003": {
         "order_id": "ORD20261020003", "user_id": "U1003", "channel": "market",
         "items": [{"sku": "ZP-DG-001", "name": "护眼折叠台灯", "qty": 2, "paid": 159.0}],
-        "paid_amount": 318.0, "status": "已签收", "order_date": "2026-10-20",
-        "sign_date": "2026-10-22", "coupon_code": None,
+        "paid_amount": 318.0, "status": "已签收", "order_date": _days_ago(10),
+        "sign_date": _days_ago(8), "coupon_code": None,
     },
     "ORD20261112004": {
         "order_id": "ORD20261112004", "user_id": "U1001", "channel": "self",
         "items": [{"sku": "ZP-ZC-001", "name": "天然乳胶枕", "qty": 2, "paid": 249.0}],
-        "paid_amount": 498.0, "status": "待发货", "order_date": "2026-11-12",
+        "paid_amount": 498.0, "status": "待发货", "order_date": _days_ago(3),
         "sign_date": None, "coupon_code": "CP2026C",
     },
     "ORD20261114005": {
         "order_id": "ORD20261114005", "user_id": "U1004", "channel": "self",
         "items": [{"sku": "ZP-ZT-001", "name": "白橡木升降书桌120cm", "qty": 1, "paid": 899.0}],
-        "paid_amount": 899.0, "status": "已发货", "order_date": "2026-11-14",
+        "paid_amount": 899.0, "status": "已发货", "order_date": _days_ago(4),
         "sign_date": None, "coupon_code": None,
     },
 }

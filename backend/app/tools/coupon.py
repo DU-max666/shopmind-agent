@@ -2,20 +2,27 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from datetime import date, timedelta
 from typing import Any
 
 from backend.app.tools.base import BaseTool, ToolError
 
+
+def _days_from_now(n: int) -> str:
+    """券有效期相对今天生成，保证"未使用/已过期"状态随时间恒成立。"""
+    return (date.today() + timedelta(days=n)).isoformat()
+
+
 DEMO_COUPONS: dict[str, list[dict[str, Any]]] = {
     "U1001": [
         {"code": "CP2026A", "type": "满减", "threshold": 999.0, "amount": 100.0,
-         "status": "未使用", "scope": "自营家具", "expire": "2026-12-31"},
+         "status": "未使用", "scope": "自营家具", "expire": _days_from_now(45)},
         {"code": "CP2026C", "type": "立减", "threshold": 0.0, "amount": 20.0,
-         "status": "未使用", "scope": "全平台", "expire": "2026-11-30"},
+         "status": "未使用", "scope": "全平台", "expire": _days_from_now(14)},
     ],
     "U1002": [
         {"code": "CP2026B", "type": "满减", "threshold": 199.0, "amount": 20.0,
-         "status": "已过期", "scope": "全平台", "expire": "2026-11-01"},
+         "status": "已过期", "scope": "全平台", "expire": _days_from_now(-10)},
     ],
     "U1003": [],
 }
