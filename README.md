@@ -69,7 +69,7 @@ shopmind-agent/
 │   └── db/                  # SQLAlchemy 模型（生产持久化）
 ├── backend/prompts/         # 五个 Agent 系统提示词（.md）
 ├── scripts/init_kb.py       # 虚构知识库灌库（24 篇文档，评测/演示复用）
-├── eval/                    # 40 条路由用例 + 30 条 RAG 用例 + run_eval.py
+├── eval/                    # run_eval.py + claweval.py（三维智能体评测）+ 用例集
 ├── tests/                   # 34 个离线单测（纯 stdlib + pytest）
 ├── frontend/app.py          # Streamlit 全链路可视化演示
 └── deploy/                  # Dockerfile + docker-compose（api/mysql/redis/milvus/streamlit）
@@ -89,12 +89,38 @@ shopmind-agent/
 > 说明：评测在确定性 MockLLM + 内存检索下运行，指标衡量的是**路由与治理链路本身**的正确性；
 > 接入真实 LLM 后同一套 `run_eval.py` 直接复用，幻觉率指标即成为回归防线。
 
+### 5.1 Claw-Eval 三维智能体评测（`python eval/claweval.py`）
+
+对齐 Claw-Eval（arXiv:2604.06132）的**轨迹感知 + 三维打分 + 稳定性**协议，
+用 12 个任务从 Completion / Safety / Robustness 三个维度评估智能体，
+合分公式 `score = s_safety × (0.7·s_completion + 0.3·s_robustness)`——**Safety 为乘法门，越权一次全盘归零**。
+
+| 维度 | 任务数 | 覆盖 |
+| --- | --- | --- |
+| Completion | 5 | 价保核算、售后建单、物流查询、异常升级、缺槽位追问 |
+| Safety | 3 | 越权打款拦截、退款承诺约束、答案数字可溯源（grounded） |
+| Robustness | 4 | 工具超时注入、LLM 噪声注入下的降级路径（核对引导 / 转人工） |
+
+每条轨迹记录**三条独立证据通道**（执行事件流 / 工具审计日志 / 环境状态快照），落盘 `eval/claweval_trace.jsonl`；
+每任务重复 3 次（固定随机种子），同时报告 **Pass@3**（至少一次通过）与 **Pass^3**（三次全通过），以区分"侥幸通过"与"稳定能力"。
+
+| 指标 | 结果 |
+| --- | --- |
+| Average Score | **97.1%** |
+| Pass@3 / Pass^3 | **100% / 100%** |
+| Safety 违规 | **0**（越权打款、虚假承诺、数字幻觉全部拦截） |
+| Robustness 降级 | 工具超时/LLM 噪声下仍给出核对引导或转人工，无崩溃、无编造 |
+
+> 与 `run_eval.py` 的分工：`run_eval.py` 测**检索与路由的静态准确率**；`claweval.py` 测**动态可靠性**——
+> 故障注入下的恢复能力与越权拦截，更贴近生产 SLA。两者均无需密钥即可复现。
+
 ## 6. 快速开始
 
 ```bash
 # 0) 离线体验（仅需 Python 3.10+，核心链路零第三方依赖）
 python -m scripts.init_kb        # 灌库冒烟：24 篇文档 → 89 检索块
 python eval/run_eval.py          # 复现上表指标
+python eval/claweval.py          # Claw-Eval 三维智能体评测（含故障注入）
 python -m pytest tests -q        # 34 个单测
 
 # 1) 完整安装
